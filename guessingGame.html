@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Emoji Math Guessing Game</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+    .emoji { font-size: 24px; }
+    #instructions { margin-bottom: 20px; }
+    body{
+      background-color: aqua;
+    }
+    marquee{
+      background-color: black;
+      color:gold;
+    }
+    h1{
+      border-radius: 100%;
+      background-color: black;
+      color: chartreuse;
+    }
+  </style>
+</head>
+<marquee><b>WELCOME MATH GUSSING GAME </b></marquee>
+<body>
+  <h1> Math Guessing Game</h1>
+  <p id="instructions">Solve using these clues: 🍉 + 🍉 + 🍉 = 15, 🍌 + 🍌 + 🍌 = 12, 🍓 + 🍓 + 🍓 = 6, 🎈 + 🎈 = 20, 🎁 + 🎁 + 🎁 = 30</p>
+  <div id="game"></div>
+  <input type="number" id="guess" placeholder="Enter your guess">
+  <button onclick="checkGuess()">Submit Guess</button>
+  <p id="result"></p>
+
+  <script>
+    const emojis = {
+      '🍉': 5,
+      '🍌': 4,
+      '🍓': 2,
+      '🎈': 10,
+      '🎁': 10
+    };
+
+    function generateExpression() {
+      const expr = [
+        { emoji: '🍉', count: Math.floor(Math.random() * 3) + 1 },
+        { emoji: '🍌', count: Math.floor(Math.random() * 3) + 1 },
+        { emoji: '🍓', count: Math.floor(Math.random() * 3) + 1 },
+        { emoji: '🎈', count: Math.floor(Math.random() * 3) + 1 },
+        { emoji: '🎁', count: Math.floor(Math.random() * 3) + 1 }
+      ];
+      const total = expr.reduce((sum, item) => sum + (emojis[item.emoji] * item.count), 0);
+      document.getElementById('game').innerHTML = `${expr.map(e => e.emoji.repeat(e.count)).join(' + ')} = ?`;
+      return total;
+    }
+
+    let correctAnswer = generateExpression();
+
+    function checkGuess() {
+      const userGuess = parseInt(document.getElementById('guess').value);
+      if (userGuess === correctAnswer) {
+        document.getElementById('result').innerHTML = 'Correct! Well done!';
+        correctAnswer = generateExpression();
+        document.getElementById('guess').value = '';
+      } else {
+        document.getElementById('result').innerHTML = `Wrong! Try again. The answer is ${correctAnswer}.`;
+      }
+    }
+  </script>
+</body>
+</html>
